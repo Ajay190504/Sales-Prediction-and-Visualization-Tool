@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 import numpy as np
 
-st.title("📈 Sales Prediction and Visualization Tool")
+st.title(" Sales Prediction and Visualization Tool")
 
 uploaded_file = st.file_uploader("Upload your CSV file", type=["csv"])
 
@@ -18,7 +18,7 @@ if uploaded_file:
     columns = df.columns.tolist()
 
     # Allow user to select date and sales columns if not standard
-    st.markdown("### 🛠️ Select Columns for Analysis")
+    st.markdown("### Select Columns for Analysis")
     date_col = st.selectbox("Select the Date column", columns)
     sales_col = st.selectbox("Select the Sales column", columns)
 
@@ -27,11 +27,11 @@ if uploaded_file:
         df = df.dropna(subset=[date_col, sales_col])
         df.sort_values(date_col, inplace=True)
 
-        st.subheader("📊 Sales Over Time")
+        st.subheader(" Sales Over Time")
         fig = px.line(df, x=date_col, y=sales_col, title="Sales Over Time")
         st.plotly_chart(fig)
 
-        st.subheader("🤖 Train Sales Prediction Model")
+        st.subheader(" Train Sales Prediction Model")
         df["Day"] = (df[date_col] - df[date_col].min()).dt.days
         X = df[["Day"]]
         y = df[sales_col]
@@ -52,14 +52,14 @@ if uploaded_file:
         future_dates = df[date_col].max() + pd.to_timedelta(future_X["Day"] - last_day, unit="D")
         future_df = pd.DataFrame({"Date": future_dates, "Predicted Sales": future_preds})
 
-        st.subheader("📈 Future Sales Predictions")
+        st.subheader(" Future Sales Predictions")
         st.write(future_df)
 
         fig_future = px.line(future_df, x="Date", y="Predicted Sales", title="Future Sales Prediction")
         st.plotly_chart(fig_future)
 
         csv = future_df.to_csv(index=False).encode("utf-8")
-        st.download_button("📥 Download Predictions as CSV", data=csv, file_name="future_sales.csv", mime="text/csv")
+        st.download_button(" Download Predictions as CSV", data=csv, file_name="future_sales.csv", mime="text/csv")
 
     except Exception as e:
         st.error(f"An error occurred: {e}")
